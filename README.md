@@ -15,6 +15,7 @@ files, allowing for Kubernetes config maps.
 | Variable | Default | Description |
 | ------------- | ------------- | ----- |
 | NGINX_HTTP_PORT | 8080 | Nginx HTTP port number. Overrides the Listen directive in /etc/nginx/conf.d/default.conf because the container can not start on port 80. |
+| NGINX_HTTPS_PORT | 8443 | Nginx HTTPS port number. Overrides the Listen directive in /etc/nginx/conf.d/default.conf because the container can not start on port 443. |
 
 
 ## Input Configration
@@ -23,4 +24,3 @@ files, allowing for Kubernetes config maps.
 | ------------- | ------------- |
 | /nginx-in/nginx.conf | /etc/nginx/nginx.conf |
 | /nginx-confd-in/*.conf | /etc/nginx/conf.d/ |
-

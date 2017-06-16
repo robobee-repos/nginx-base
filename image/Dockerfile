@@ -1,16 +1,30 @@
 FROM  nginx:1.13.1
 LABEL maintainer "Erwin Mueller <erwin.mueller@deventm.com>"
 
+ARG APT_CACHE
+ENV WEB_ROOT /var/www/html
+ENV NGINX_HTTP_PORT 8080
+ENV NGINX_HTTPS_PORT 8443
+
 RUN set -x \
+  # Optional add proxy entries for apt.
+  && if [ -n "${APT_CACHE}" ]; then \
+  echo Acquire::ftp::Proxy \"$APT_CACHE\"; >> /etc/apt/apt.conf.d/08proxy;\
+  echo Acquire::http::Proxy \"$APT_CACHE\"; >> /etc/apt/apt.conf.d/08proxy;\
+  echo Acquire::https::Proxy \"$APT_CACHE\"; >> /etc/apt/apt.conf.d/08proxy;\
+  fi \
   && DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
-  && apt-get install -y certbot \
+  && apt-get install -y certbot rsync \
   && rm -rf /var/lib/apt/lists/*
 
 RUN set -x \
+  && mkdir -p /nginx-in \
+  && mkdir -p /nginx-confd-in \
+  && mkdir -p /var/cache/nginx \
+  # Set permissions for non-root user.
   && chown nginx.nginx /etc/nginx/nginx.conf \
   && chown nginx.nginx -R /etc/nginx/conf.d \
-  && mkdir -p /var/nginx/cache \
   && chown nginx.nginx -R /var/cache/nginx \
   && chmod o+rwX /var/run
 
@@ -23,10 +37,7 @@ RUN set -x \
 
 # Finishing up.
 
-ENV HTTP_ROOT /var/www/html
-ENV NGINX_HTTP_PORT 8080
-
-WORKDIR $HTTP_ROOT
+WORKDIR $WEB_ROOT
 
 EXPOSE 8080
 EXPOSE 8443
