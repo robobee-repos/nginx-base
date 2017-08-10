@@ -62,5 +62,5 @@ copy_nginx_confd
 copy_nginx_conf
 update_nginx_conf
 
-cd $HTTP_ROOT
+cd $WEB_ROOT
 exec "$@"
