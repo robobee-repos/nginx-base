@@ -1,21 +1,39 @@
 #!/bin/bash
 set -xe
 
+function check_files_exists() {
+  ls "$1" 1> /dev/null 2>&1
+}
+
+function copy_file() {
+  file="$1"; shift
+  dir="$1"; shift
+  if [ -e "$file" ]; then
+    mkdir -p "$dir"
+    cp "$file" "$dir/$file"
+  fi
+}
+
 function copy_nginx_confd() {
-  cd /nginx-confd-in
-  set +e
-  cp *.conf /etc/nginx/conf.d/
-  set -e
+  dir="/nginx-confd-in"
+  if [ ! -d "${dir}" ]; then
+    return
+  fi
+  cd "${dir}"
+  if ! check_files_exists "*.conf"; then
+    return
+  fi
+  rsync -v "${dir}/*.conf" /etc/nginx/conf.d/
 }
 
 function copy_nginx_conf() {
-  cd /nginx-in
-  file="nginx.conf"
-  dest="/etc/nginx/$file"
-  if [ -e "$file" ]; then
-    cp "$file" "$dest"
-    chmod 0644 "$dest"
+  dir="/nginx-in"
+  if [ ! -d ${dir} ]; then
+    return
   fi
+  cd "${dir}"
+  file="nginx.conf"
+  copy_file "${file}" "/etc/nginx"
 }
 
 function do_sed() {
@@ -38,13 +56,10 @@ function update_nginx_conf() {
   do_sed "$file" "$search" "$replace"
 }
 
-if [ -d /nginx-confd-in ]; then
-  copy_nginx_confd
-fi
-if [ -d /nginx-in ]; then
-  copy_nginx_conf
-fi
+echo "Running as `id`"
 
+copy_nginx_confd
+copy_nginx_conf
 update_nginx_conf
 
 cd $HTTP_ROOT

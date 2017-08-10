@@ -31,9 +31,13 @@ WORKDIR $HTTP_ROOT
 EXPOSE 8080
 EXPOSE 8443
 
-VOLUME /nginx-in
-VOLUME /nginx-confd-in
-VOLUME /var/cache/nginx
+RUN set -x \
+  && chown nginx.root -R /etc/nginx \
+  && chmod u=rwX,g=rwX,o=rX -R /etc/nginx \
+  && chown nginx.root -R /var/cache/nginx \
+  && chmod u=rwX,g=rwX,o=rX -R /var/cache/nginx \
+  && chown nginx.root -R /var/run \
+  && chmod u=rwX,g=rwX,o=rX -R /var/run
 
 USER nginx
 ENTRYPOINT ["docker-entrypoint.sh"]
