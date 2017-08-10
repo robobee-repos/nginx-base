@@ -1,0 +1,49 @@
+FROM  nginx:1.13.1
+LABEL maintainer "Erwin Mueller <erwin.mueller@deventm.com>"
+
+ARG APT_CACHE
+ENV WEB_ROOT /var/www/html
+ENV NGINX_HTTP_PORT 8080
+ENV NGINX_HTTPS_PORT 8443
+
+RUN set -x \
+  # Optional add proxy entries for apt.
+  && if [ -n "${APT_CACHE}" ]; then \
+  echo Acquire::ftp::Proxy \"$APT_CACHE\"; >> /etc/apt/apt.conf.d/08proxy;\
+  echo Acquire::http::Proxy \"$APT_CACHE\"; >> /etc/apt/apt.conf.d/08proxy;\
+  echo Acquire::https::Proxy \"$APT_CACHE\"; >> /etc/apt/apt.conf.d/08proxy;\
+  fi \
+  && DEBIAN_FRONTEND=noninteractive \
+  && apt-get update \
+  && apt-get install -y certbot rsync \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN set -x \
+  && mkdir -p /nginx-in \
+  && mkdir -p /nginx-confd-in \
+  && mkdir -p /var/cache/nginx \
+  # Set permissions.
+  && chown nginx.root -R /etc/nginx \
+  && chmod u=rwX,g=rwX,o=rX -R /etc/nginx \
+  && chown nginx.root -R /var/cache/nginx \
+  && chmod u=rwX,g=rwX,o=rX -R /var/cache/nginx \
+  && chown nginx.root -R /var/run \
+  && chmod u=rwX,g=rwX,o=rX -R /var/run
+
+# Install docker-entrypoint.sh
+
+ADD rootfs/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+RUN set -x \
+  && chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Finishing up.
+
+WORKDIR $WEB_ROOT
+
+EXPOSE 8080
+EXPOSE 8443
+
+USER nginx
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
