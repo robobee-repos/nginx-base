@@ -27,8 +27,9 @@ RUN set -x \
   && chmod u=rwX,g=rwX,o=rX -R /etc/nginx \
   && chown nginx.root -R /var/cache/nginx \
   && chmod u=rwX,g=rwX,o=rX -R /var/cache/nginx \
-  && chown nginx.root -R /var/run \
-  && chmod u=rwX,g=rwX,o=rX -R /var/run
+  && mkdir -p /run/nginx \
+  && chown nginx.root -R /run/nginx \
+  && chmod u=rwX,g=rwX,o=rX -R /run/nginx
 
 # Install docker-entrypoint.sh
 

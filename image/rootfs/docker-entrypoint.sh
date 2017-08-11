@@ -54,6 +54,11 @@ function update_nginx_conf() {
   search="\s+listen\s+"
   replace="\1${NGINX_HTTP_PORT};"
   do_sed "$file" "$search" "$replace"
+  ##
+  file="/etc/nginx/nginx.conf"
+  search="pid\s+"
+  replace="\1/run/nginx/nginx.pid;"
+  do_sed "$file" "$search" "$replace"
 }
 
 echo "Running as `id`"
