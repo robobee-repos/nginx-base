@@ -1,5 +1,5 @@
 REPOSITORY := erwin82
-NAME := nginx-base
+NAME := nginx
 VERSION ?= v1.13.1-r4-2
 
 build: _build ##@targets Builds the docker image.
