@@ -44,7 +44,7 @@ function do_sed() {
   file="$1"; shift
   search="$1"; shift
   replace="$1"; shift
-  sed -r -e "s/^(${search}).*/${replace}/g" $file > $TFILE
+  sed -r -e "s|^(${search}).*|${replace}|g" $file > $TFILE
   cat $TFILE > $file
 }
 
