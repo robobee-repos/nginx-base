@@ -15,7 +15,7 @@ RUN set -x \
   fi \
   && DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
-  && apt-get install -y certbot rsync \
+  && apt-get install -y rsync \
   && rm -rf /var/lib/apt/lists/*
 
 RUN set -x \
