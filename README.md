@@ -27,10 +27,10 @@ files, allowing for Kubernetes config maps.
 ## License
 
 Nginx is licensed 
-under [2-clause BSD-like](https://nginx.org/LICENSE) license.
+under the [2-clause BSD-like](https://nginx.org/LICENSE) license.
 
 Nginx Docker image is licensed 
-under [MIT](https://opensource.org/licenses/MIT) license.
+under the [MIT](https://opensource.org/licenses/MIT) license.
 
 Copyright 2017 Erwin Müller
 
