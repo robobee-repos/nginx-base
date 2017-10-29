@@ -2,9 +2,11 @@
 
 ## Description
 
-This is a base image for Nginx. It modifies the parent image insofar as the
-Nginx serves per default on the ports `8080` and `8433` and is run as a 
-non-priveleged user.
+This is a base image for [Nginx](https://nginx.org/en/).
+It uses the official [Nginx image](https://hub.docker.com/_/nginx/) as the
+base image and modifies the 
+it insofar as the Nginx serves per default on the ports `8080` and `8433`
+and is run as a non-priveleged user.
 
 Furthermore,
 it can take input configuration files to override the image configuration
