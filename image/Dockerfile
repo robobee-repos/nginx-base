@@ -1,10 +1,7 @@
-FROM  nginx:1.13.1
+FROM  nginx:1.13.6
 LABEL maintainer "Erwin Mueller <erwin.mueller@deventm.com>"
 
 ARG APT_CACHE
-ENV WEB_ROOT /var/www/html
-ENV NGINX_HTTP_PORT 8080
-ENV NGINX_HTTPS_PORT 8443
 
 RUN set -x \
   # Optional add proxy entries for apt.
@@ -12,15 +9,18 @@ RUN set -x \
   echo Acquire::ftp::Proxy \"$APT_CACHE\"; >> /etc/apt/apt.conf.d/08proxy;\
   echo Acquire::http::Proxy \"$APT_CACHE\"; >> /etc/apt/apt.conf.d/08proxy;\
   echo Acquire::https::Proxy \"$APT_CACHE\"; >> /etc/apt/apt.conf.d/08proxy;\
-  fi \
+  fi
+
+RUN set -x \
   && DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
   && apt-get install -y rsync \
   && rm -rf /var/lib/apt/lists/*
 
+ADD rootfs/ /
+
 RUN set -x \
-  && mkdir -p /nginx-in \
-  && mkdir -p /nginx-confd-in \
+  && chmod +x /*.sh \
   && mkdir -p /var/cache/nginx \
   # Set permissions.
   && chown nginx.root -R /etc/nginx \
@@ -31,20 +31,15 @@ RUN set -x \
   && chown nginx.root -R /run/nginx \
   && chmod u=rwX,g=rwX,o=rX -R /run/nginx
 
-# Install docker-entrypoint.sh
+ENV WEB_ROOT="/var/www/html" \
+  NGINX_HTTP_PORT="8080" \
+  NGINX_HTTPS_PORT="8443"
 
-ADD rootfs/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-
-RUN set -x \
-  && chmod +x /usr/local/bin/docker-entrypoint.sh
-
-# Finishing up.
-
-WORKDIR $WEB_ROOT
+WORKDIR ${WEB_ROOT}
 
 EXPOSE 8080
 EXPOSE 8443
 
 USER nginx
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
