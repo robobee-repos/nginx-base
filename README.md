@@ -2,37 +2,27 @@
 
 ## Description
 
-This is a base image for [Nginx](https://nginx.org/en/).
-It uses the official [Nginx image](https://hub.docker.com/_/nginx/) as the
-base image and modifies the 
-it insofar as the Nginx serves per default on the ports `8080` and `8433`
-and is run as a non-priveleged user.
-
-Furthermore,
-it can take input configuration files to override the image configuration
-files, allowing for Kubernetes config maps.
+This is a base image for [Nginx](https://nginx.org/en/). It uses the official [Nginx image](https://hub.docker.com/_/nginx/) as the base image and modifies the it insofar as the Nginx serves per default on the ports `8080` and `8433` and is run as a non-priveleged user. Furthermore, it can take input configuration files to override the image configuration files, allowing for Kubernetes config maps.
 
 ## Environment Parameters
 
 | Variable | Default | Description |
 | ------------- | ------------- | ----- |
-| NGINX_HTTP_PORT | 8080 | Nginx HTTP port number. Overrides the listen directive in `/etc/nginx/conf.d/default.conf` because the container can not start on port 80. |
-| NGINX_HTTPS_PORT | 8443 | Nginx HTTPS port number. |
+| `NGINX_HTTP_PORT` | `8080` | Nginx HTTP port number. Overrides the listen directive in `/etc/nginx/conf.d/default.conf` because the container can not start on port 80. |
+| `NGINX_HTTPS_PORT` | `8443` | Nginx HTTPS port number. |
 
 ## Input Configration
 
 | Source | Destination |
 | ------------- | ------------- |
-| /nginx-in/nginx.conf | /etc/nginx/nginx.conf |
-| /nginx-confd-in/*.conf | /etc/nginx/conf.d/ |
+| `/nginx-in/nginx.conf` | `/etc/nginx/nginx.conf` |
+| `/nginx-confd-in/*.conf` | `/etc/nginx/conf.d/` |
 
 ## License
 
-Nginx is licensed 
-under the [2-clause BSD-like](https://nginx.org/LICENSE) license.
+Nginx is licensed under the [2-clause BSD-like](https://nginx.org/LICENSE) license.
 
-Nginx Docker image is licensed 
-under the [MIT](https://opensource.org/licenses/MIT) license.
+This image is licensed under the [MIT](https://opensource.org/licenses/MIT) license.
 
 Copyright 2017 Erwin Müller
 

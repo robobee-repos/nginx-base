@@ -14,7 +14,8 @@ RUN set -x \
 RUN set -x \
   && DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
-  && apt-get install -y rsync \
+  && apt-get install -y \
+    rsync \
   && rm -rf /var/lib/apt/lists/*
 
 ADD rootfs/ /
@@ -37,9 +38,11 @@ ENV WEB_ROOT="/var/www/html" \
 
 WORKDIR ${WEB_ROOT}
 
-EXPOSE 8080
-EXPOSE 8443
+# http, https
+EXPOSE ["8080", "8443"]
 
 USER nginx
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
 CMD ["nginx", "-g", "daemon off;"]
