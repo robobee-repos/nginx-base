@@ -39,7 +39,8 @@ ENV WEB_ROOT="/var/www/html" \
 WORKDIR ${WEB_ROOT}
 
 # http, https
-EXPOSE ["8080", "8443"]
+EXPOSE 8080
+EXPOSE 8443
 
 USER nginx
 
