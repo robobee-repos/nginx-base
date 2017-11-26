@@ -29,7 +29,9 @@ RUN set -x \
   && chmod u=rwX,g=rwX,o=rX -R /var/cache/nginx \
   && mkdir -p /run/nginx \
   && chown nginx.root -R /run/nginx \
-  && chmod u=rwX,g=rwX,o=rX -R /run/nginx
+  && chmod u=rwX,g=rwX,o=rX -R /run/nginx\
+  && chown nginx.root -R /var/log/nginx \
+  && chmod u=rwX,g=rwX,o=rX -R /var/log/nginx
 
 ENV WEB_ROOT="/var/www/html" \
   NGINX_HTTP_PORT="8080" \
