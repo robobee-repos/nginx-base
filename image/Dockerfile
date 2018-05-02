@@ -1,4 +1,4 @@
-FROM  nginx:1.13.6
+FROM  nginx:1.13.12
 LABEL maintainer "Erwin Mueller <erwin.mueller@deventm.com>"
 
 ARG APT_CACHE

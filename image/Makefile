@@ -1,6 +1,6 @@
 REPOSITORY := robobeerun
 NAME := nginx
-VERSION ?= v1.13.6-r3
+VERSION ?= v1.13.12-r1
 
 build: _build ##@targets Builds the docker image.
 

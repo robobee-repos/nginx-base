@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+
+  nginx:
+    image: robobeerun/nginx:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - "./nginx-in:/nginx-in"
+      - "./html:/var/www/html"

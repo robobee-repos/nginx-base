@@ -11,7 +11,7 @@ This is a base image for [Nginx](https://nginx.org/en/). It uses the official [N
 | `NGINX_HTTP_PORT` | `8080` | Nginx HTTP port number. Overrides the listen directive in `/etc/nginx/conf.d/default.conf` because the container can not start on port 80. |
 | `NGINX_HTTPS_PORT` | `8443` | Nginx HTTPS port number. |
 
-## Input Configration
+## Optionally Input Configration
 
 | Source | Destination |
 | ------------- | ------------- |
@@ -24,7 +24,7 @@ Nginx is licensed under the [2-clause BSD-like](https://nginx.org/LICENSE) licen
 
 This image is licensed under the [MIT](https://opensource.org/licenses/MIT) license.
 
-Copyright 2017 Erwin Müller
+Copyright 2017-2018 Erwin Müller
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
