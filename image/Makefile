@@ -1,15 +1,16 @@
 REPOSITORY := robobeerun
 NAME := nginx
-VERSION ?= v1.13.12-r1
+VERSION ?= v1.15.12-r.1
 
+.PHONY: build
 build: _build ##@targets Builds the docker image.
 
+.PHONY: clean
 clean: _clean ##@targets Removes the local docker image.
 
+.PHONY: deploy
 deploy: _deploy ##@targets Deploys the docker image to the repository.
 
 include ../utils/Makefile.help
 include ../utils/Makefile.functions
 include ../utils/Makefile.image
-
-.PHONY +: build clean deploy
